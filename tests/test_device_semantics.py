@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-from fleetplane.domain.enums import AckCode, CommandKind, CommandStatus, OperatingMode
+from fleetplane.domain.enums import AckCode, CommandKind, OperatingMode
 from fleetplane.domain.models import ConfigurationPatch, DirectCommand
 from fleetplane.simulator.device import DevicePolicy, SimulatedDevice
 from tests.conftest import provision_active, telemetry

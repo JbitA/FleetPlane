@@ -5,7 +5,7 @@ from datetime import UTC, datetime, timedelta
 from fleetplane.core.commands import CommandService
 from fleetplane.core.configuration import ConfigurationService
 from fleetplane.domain.enums import CommandStatus, OutboxKind, OutboxStatus
-from fleetplane.domain.models import DesiredConfiguration, DirectCommand
+from fleetplane.domain.models import DesiredConfiguration
 from fleetplane.ports.gateway import DeviceGateway
 from fleetplane.ports.store import FleetStore
 from fleetplane.observability import correlation_context, operation_log

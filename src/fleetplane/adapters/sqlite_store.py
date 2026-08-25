@@ -9,7 +9,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, Iterator, Sequence
 
-from fleetplane.domain.enums import CommandStatus, DeviceLifecycle, HealthState, OutboxKind, OutboxStatus
+from fleetplane.domain.enums import CommandStatus, DeviceLifecycle, HealthState, OutboxStatus
 from fleetplane.domain.models import (
     AuditPage,
     AuditRecord,

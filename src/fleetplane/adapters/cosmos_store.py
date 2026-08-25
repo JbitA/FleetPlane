@@ -5,7 +5,7 @@ import hashlib
 import json
 import os
 from datetime import UTC, datetime, timedelta
-from typing import Any, Iterable, Sequence
+from typing import Any, Sequence
 
 from fleetplane.core.summary_projection import SummaryDelta
 from fleetplane.domain.enums import CommandStatus, DeviceLifecycle, HealthState, OutboxStatus

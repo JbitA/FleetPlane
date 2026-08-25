@@ -4,7 +4,7 @@ import os
 from enum import StrEnum
 from typing import Any, Protocol
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 from fleetplane.domain.enums import DeviceLifecycle
 from fleetplane.domain.models import DeviceState

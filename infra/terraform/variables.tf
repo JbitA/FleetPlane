@@ -43,7 +43,7 @@ variable "cosmos_free_tier_enabled" {
 variable "tags" {
   description = "Tags applied to Azure resources."
   type        = map(string)
-  default = {
+  default     = {
     workload    = "fleetplane"
     environment = "showcase"
     managed_by  = "terraform"
@@ -55,7 +55,6 @@ variable "device_registry_enabled" {
   type        = bool
   default     = true
 }
-
 
 variable "dps_enabled" {
   description = "Create Device Provisioning Service for zero-touch IoT Hub assignment."

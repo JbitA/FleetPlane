@@ -6,7 +6,6 @@ import platform
 import sys
 import tempfile
 import threading
-import time
 from datetime import UTC, datetime
 from pathlib import Path
 

@@ -32,15 +32,14 @@ resource "azurerm_iothub" "main" {
   tags = var.tags
 }
 
-
 resource "azurerm_iothub_shared_access_policy" "dps_link" {
   count               = var.deployment_enabled && var.dps_enabled ? 1 : 0
   name                = "dps-link"
   resource_group_name = azurerm_resource_group.main[0].name
-  iothub_name          = azurerm_iothub.main[0].name
-  registry_read        = true
-  registry_write       = true
-  service_connect      = true
+  iothub_name         = azurerm_iothub.main[0].name
+  registry_read       = true
+  registry_write      = true
+  service_connect     = true
 }
 
 resource "azurerm_iothub_consumer_group" "control" {
@@ -55,20 +54,20 @@ resource "azurerm_iothub_shared_access_policy" "function_ingress" {
   count               = local.enabled_count
   name                = "function-ingress"
   resource_group_name = azurerm_resource_group.main[0].name
-  iothub_name          = azurerm_iothub.main[0].name
-  service_connect      = true
+  iothub_name         = azurerm_iothub.main[0].name
+  service_connect     = true
 }
 
 resource "azurerm_cosmosdb_account" "main" {
-  count                          = local.enabled_count
-  name                           = "cosmos-${local.base}"
-  location                       = azurerm_resource_group.main[0].location
-  resource_group_name            = azurerm_resource_group.main[0].name
-  offer_type                     = "Standard"
-  kind                           = "GlobalDocumentDB"
-  free_tier_enabled              = var.cosmos_free_tier_enabled
-  local_authentication_disabled  = true
-  public_network_access_enabled  = true
+  count                         = local.enabled_count
+  name                          = "cosmos-${local.base}"
+  location                      = azurerm_resource_group.main[0].location
+  resource_group_name           = azurerm_resource_group.main[0].name
+  offer_type                    = "Standard"
+  kind                          = "GlobalDocumentDB"
+  free_tier_enabled             = var.cosmos_free_tier_enabled
+  local_authentication_disabled = true
+  public_network_access_enabled = true
 
   consistency_policy {
     consistency_level = "Session"
@@ -184,24 +183,24 @@ resource "azurerm_linux_function_app" "main" {
   }
 
   app_settings = {
-    FUNCTIONS_WORKER_RUNTIME         = "python"
-    SCM_DO_BUILD_DURING_DEPLOYMENT   = "true"
-    ENABLE_ORYX_BUILD                = "true"
-    FLEETPLANE_MODE                  = "azure"
-    FLEETPLANE_IOTHUB_HOST_NAME      = azurerm_iothub.main[0].hostname
-    FLEETPLANE_COSMOS_ENDPOINT       = azurerm_cosmosdb_account.main[0].endpoint
-    FLEETPLANE_COSMOS_DATABASE          = azurerm_cosmosdb_sql_database.main[0].name
-    FLEETPLANE_COSMOS_CONTAINER         = azurerm_cosmosdb_sql_container.control[0].name
-    FLEETPLANE_COSMOS_SUMMARY_CONTAINER = azurerm_cosmosdb_sql_container.summaries[0].name
-    FLEETPLANE_COSMOS_LEASE_CONTAINER   = azurerm_cosmosdb_sql_container.leases[0].name
+    FUNCTIONS_WORKER_RUNTIME                      = "python"
+    SCM_DO_BUILD_DURING_DEPLOYMENT                = "true"
+    ENABLE_ORYX_BUILD                             = "true"
+    FLEETPLANE_MODE                               = "azure"
+    FLEETPLANE_IOTHUB_HOST_NAME                   = azurerm_iothub.main[0].hostname
+    FLEETPLANE_COSMOS_ENDPOINT                    = azurerm_cosmosdb_account.main[0].endpoint
+    FLEETPLANE_COSMOS_DATABASE                    = azurerm_cosmosdb_sql_database.main[0].name
+    FLEETPLANE_COSMOS_CONTAINER                   = azurerm_cosmosdb_sql_container.control[0].name
+    FLEETPLANE_COSMOS_SUMMARY_CONTAINER           = azurerm_cosmosdb_sql_container.summaries[0].name
+    FLEETPLANE_COSMOS_LEASE_CONTAINER             = azurerm_cosmosdb_sql_container.leases[0].name
     FLEETPLANE_COSMOS_CONNECTION__accountEndpoint = azurerm_cosmosdb_account.main[0].endpoint
-    FLEETPLANE_IOTHUB_CONSUMER_GROUP = azurerm_iothub_consumer_group.control[0].name
-    FLEETPLANE_DEVICE_REGISTRY_NAMESPACE = var.device_registry_enabled ? azapi_resource.device_registry_namespace[0].name : "fleetplane-prod"
-    FLEETPLANE_DPS_ID_SCOPE = var.dps_enabled ? azurerm_iothub_dps.main[0].id_scope : ""
-    FLEETPLANE_AZURE_RESOURCE_GROUP = azurerm_resource_group.main[0].name
-    FLEETPLANE_AZURE_LOCATION = azurerm_resource_group.main[0].location
-    FLEETPLANE_IOTHUB_EVENTHUB_NAME  = azurerm_iothub.main[0].event_hub_events_path
-    FLEETPLANE_IOTHUB_EVENTHUB = format(
+    FLEETPLANE_IOTHUB_CONSUMER_GROUP              = azurerm_iothub_consumer_group.control[0].name
+    FLEETPLANE_DEVICE_REGISTRY_NAMESPACE          = var.device_registry_enabled ? azapi_resource.device_registry_namespace[0].name : "fleetplane-prod"
+    FLEETPLANE_DPS_ID_SCOPE                       = var.dps_enabled ? azurerm_iothub_dps.main[0].id_scope : ""
+    FLEETPLANE_AZURE_RESOURCE_GROUP               = azurerm_resource_group.main[0].name
+    FLEETPLANE_AZURE_LOCATION                     = azurerm_resource_group.main[0].location
+    FLEETPLANE_IOTHUB_EVENTHUB_NAME               = azurerm_iothub.main[0].event_hub_events_path
+    FLEETPLANE_IOTHUB_EVENTHUB                    = format(
       "Endpoint=%s;SharedAccessKeyName=%s;SharedAccessKey=%s;EntityPath=%s",
       azurerm_iothub.main[0].event_hub_events_endpoint,
       azurerm_iothub_shared_access_policy.function_ingress[0].name,
@@ -263,11 +262,11 @@ resource "azapi_resource" "device_registry_namespace" {
 
 # Zero-touch provisioning substrate for direct-to-cloud intelligent devices.
 resource "azurerm_iothub_dps" "main" {
-  count                 = var.deployment_enabled && var.dps_enabled ? 1 : 0
-  name                  = "dps-${local.base}"
-  resource_group_name   = azurerm_resource_group.main[0].name
-  location              = azurerm_resource_group.main[0].location
-  allocation_policy     = "Hashed"
+  count                         = var.deployment_enabled && var.dps_enabled ? 1 : 0
+  name                          = "dps-${local.base}"
+  resource_group_name           = azurerm_resource_group.main[0].name
+  location                      = azurerm_resource_group.main[0].location
+  allocation_policy             = "Hashed"
   public_network_access_enabled = true
 
   sku {
