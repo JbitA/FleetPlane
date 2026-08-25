@@ -1,0 +1,46 @@
+name: fleetplane
+services:
+  fleetplane:
+    build: .
+    command: ["demo-api", "--host", "0.0.0.0", "--port", "8000", "--devices", "20", "--restricted-devices", "5"]
+    environment:
+      FLEETPLANE_MODE: local
+      FLEETPLANE_SQLITE_PATH: /state/cloud.db
+      FLEETPLANE_CORS_ORIGINS: http://127.0.0.1:8080,http://localhost:8080
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - fleetplane-state:/state
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  dashboard:
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    depends_on:
+      fleetplane:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  fleetplane-state:

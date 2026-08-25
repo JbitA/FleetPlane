@@ -1,0 +1,44 @@
+{
+  "evidence_schema_version": 1,
+  "generated_at": "2026-08-24T18:51:09.593148+00:00",
+  "fleetplane_version": "0.5.0",
+  "python_version": "3.13.5",
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+  "parameters": {
+    "devices": 100,
+    "restricted_devices": 5
+  },
+  "result": {
+    "devices": 100,
+    "duplicate_first": "accepted",
+    "duplicate_second": "duplicate",
+    "gap_result": "accepted_with_gap",
+    "out_of_order_result": "accepted_out_of_order",
+    "spooled_before_reconnect": 60,
+    "revision1_applied": 95,
+    "revision1_rejected": 5,
+    "stale_rejections": 100,
+    "restart_status": "rejected",
+    "ping_status": "accepted",
+    "summary": {
+      "total_devices": 100,
+      "healthy": 100,
+      "degraded": 0,
+      "offline": 0,
+      "unknown": 0,
+      "config_converged": 100,
+      "updated_at": "2026-08-24T18:51:09.591300Z"
+    },
+    "assertions": {
+      "duplicate_detected": true,
+      "gap_detected": true,
+      "out_of_order_detected": true,
+      "offline_spool_used": true,
+      "restricted_devices_rejected_revision1": true,
+      "revision2_converged": true,
+      "stale_revision_rejected": true,
+      "local_autonomy_blocked_restart": true,
+      "direct_ping_succeeded": true
+    }
+  }
+}

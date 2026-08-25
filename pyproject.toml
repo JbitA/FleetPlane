@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fleetplane"
+version = "0.6.0"
+description = "Microsoft Azure IoT-native supervisory control plane for autonomous and intelligent edge fleets"
+readme = "README.md"
+keywords = ["reference-implementation", "autonomous-systems", "edge-ai", "microsoft-iot", "azure-iot-hub", "azure-device-registry", "azure-iot-operations", "distributed-systems", "fleet-management"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: FastAPI",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Distributed Computing",
+]
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "pydantic>=2.10,<3",
+  "prometheus-client>=0.21,<1",
+  "uvicorn>=0.34,<1",
+]
+
+[project.optional-dependencies]
+azure = [
+  "azure-cosmos>=4.9,<5",
+  "azure-functions>=1.23,<2",
+  "azure-identity>=1.21,<2",
+  "azure-iot-hub>=2.6,<3",
+  "azure-mgmt-deviceregistry>=1,<2",
+  "azure-mgmt-iothubprovisioningservices>=1,<2",
+]
+dev = [
+  "build>=1.2,<2",
+  "httpx>=0.28,<1",
+  "pytest>=8.3,<9",
+  "pytest-cov>=6,<7",
+  "ruff>=0.11,<1",
+  "mypy>=1.15,<2",
+]
+
+[project.scripts]
+fleetplane = "fleetplane.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["fleetplane*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+
+[tool.coverage.run]
+branch = true
+source = ["fleetplane"]
+omit = ["*/cli.py", "*/__main__.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80

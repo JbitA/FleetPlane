@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FleetPlane</title></head>
+<body>
+  <main><h1>FleetPlane</h1><pre id="summary">Loading…</pre><pre id="devices"></pre></main>
+<script>
+const API='http://127.0.0.1:8000';
+async function refresh(){
+  const summary=await fetch(`${API}/v1/fleet/summary`).then(r=>r.json());
+  const devices=await fetch(`${API}/v1/devices?limit=20`).then(r=>r.json());
+  document.getElementById('summary').textContent=JSON.stringify(summary,null,2);
+  document.getElementById('devices').textContent=JSON.stringify(devices,null,2);
+}
+refresh(); setInterval(refresh,5000);
+</script>
+</body></html>
