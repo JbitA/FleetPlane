@@ -34,7 +34,7 @@ jobs:
           -out=tfplan
       - name: Render plan
         run: terraform show -no-color tfplan > plan.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: fleetplane-azure-plan
           path: infra/terraform/plan.txt
